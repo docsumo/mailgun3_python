@@ -24,14 +24,13 @@ import os
 import sys
 import inspect
 
-sys.path.insert(0, os.path.abspath("../../"))
-sys.path.insert(0, os.path.abspath("../"))
-sys.path.insert(0, os.path.abspath("../mailgun/"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../mailgun/"))
 
 # constant name <<change these value only>>
 PROJECT_NAME = "mailgun"
 AUTHOR = "mailgun"
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 
 
 # -- General configuration ------------------------------------------------

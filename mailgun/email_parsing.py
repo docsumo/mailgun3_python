@@ -1,23 +1,36 @@
-"""Once data are store in s3, parse and upload to s3"""
+"""Parse body-mime"""
 import email
 import os
-import json
 import glob
 import zipfile
-import urllib.parse
-from io import BytesIO
-import shutil
-import uuid
 
-import requests
-
-
-# s3 = boto3.client("s3")
 allowed_file = (".png", ".jpg", ".tiff", ".jpeg", ".pdf")
 
 
-def parse_mail(email_string: str, email_id: str, output_dir: str = "tmp"):
-    """parse email and save the file"""
+def parse_email(email_string: str, email_id: str, output_dir: str = "tmp"):
+    """
+    parse email and save the file
+
+    Args:
+        email_string: ``str``
+            string of email body-mime
+        email_id: ``str``
+            unique id for email
+        output_dir: ``str``
+        
+    Return:
+        Email metadata dict: ``dict``
+
+            ..code-block:: json
+
+                {
+                "from": bkrm.dahal@gmail.com,
+                "to": bikram.dahal@docsumo.com,
+                "date": "2019-01-01 22:00:00",
+                "subject": "Testing email"
+                }
+
+    """
 
     msg = email.message_from_string(email_string)
 
@@ -81,63 +94,3 @@ def parse_mail(email_string: str, email_id: str, output_dir: str = "tmp"):
     metadata["files"] = tmp_file_path
     metadata["email_name"] = email_id
     return metadata
-
-
-# def send_data(event, context):
-#     # print("Received event: " + json.dumps(event, indent=2))
-
-#     # Get the object from the event and show its content type
-#     bucket = event["Records"][0]["s3"]["bucket"]["name"]
-#     key = urllib.parse.unquote_plus(
-#         event["Records"][0]["s3"]["object"]["key"], encoding="utf-8"
-#     )
-
-#     if "AMAZON_SES_SETUP_NOTIFICATION" in key:
-#         return "AMAZON_SES_SETUP_NOTIFICATION, File no action"
-
-#     try:
-#         response = s3.get_object(Bucket=bucket, Key=key)
-#         file_name_key = "/tmp/" + key.split("/")[-1]
-#         s3.download_file(bucket, key, file_name_key)
-
-#         # parse file
-#         output_dir = "/tmp/{}/".format(uuid.uuid4().hex)
-#         metadata = parse_mail(file_name_key, output_dir)
-
-#         for filename in metadata["files"]:
-#             multipart_form_data = {
-#                 "files": (filename, open(filename, "rb")),
-#                 "metadata": (None, json.dumps(metadata)),
-#                 "type": (None, "invoice"),
-#             }
-
-#             # get url
-#             email_to_meta = metadata["to"]
-#             url_meta = "https://{}.docsumo.com/api/v1/pik/email/predict/"
-#             if "testingdoc" in email_to_meta:
-#                 url = url_meta.format("apptesting")
-#                 token = os.environ.get("TOKEN_TESTING")
-#             elif "stagingdoc" in email_to_meta:
-#                 url = url_meta.format("appstaging")
-#                 token = os.environ.get("TOKEN_STAGING")
-#             else:
-#                 url = url_meta.format("app")
-#                 token = os.environ.get("TOKEN_PROD")
-
-#             response = requests.post(
-#                 url,
-#                 files=multipart_form_data,
-#                 headers={"token": token, "email": email_to_meta},
-#             )
-#             print(response.text)
-
-#         return metadata
-
-#     except Exception as e:
-#         print(e)
-#         print(
-#             "Error getting object {} from bucket {}. Make sure they exist and your bucket is in the same region as this function.".format(
-#                 key, bucket
-#             )
-#         )
-#         raise e

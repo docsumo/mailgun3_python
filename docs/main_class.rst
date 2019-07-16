@@ -1,11 +1,10 @@
 Mailgun Class
 =============
 
-Mailgun
+Mailgun 
 -------
 
-.. automodule:: mailgun.Mailgun
+.. automodule:: mailgun.mailgun
     :members:
     :undoc-members:
     :show-inheritance:
-    

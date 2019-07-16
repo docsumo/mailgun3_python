@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="mailgun3_python",
-    version="0.1.1",
+    version="0.1.2",
     description="Mailgun client for python",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -15,7 +15,7 @@ setup(
     license="MIT",
     python_requires=">=3",
     packages=["mailgun"],
-    install_requires=["requests", "loguru"],
+    install_requires=["requests"],
     classifiers=[
         "Intended Audience :: Education",
         "Intended Audience :: Science/Research",
