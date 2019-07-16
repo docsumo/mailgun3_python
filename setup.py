@@ -15,7 +15,7 @@ setup(
     license="MIT",
     python_requires=">=3",
     packages=["mailgun"],
-    install_requires=["requests", "loguru"],
+    install_requires=["requests"],
     classifiers=[
         "Intended Audience :: Education",
         "Intended Audience :: Science/Research",

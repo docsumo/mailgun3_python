@@ -12,17 +12,9 @@ Install
 
         pip install mailgun3_python
 
-Available method
-================
-    .. code-block:: bash
 
-        from mailgun import Mailgun
-
-        doc = Mailgun()
-
-
-Example
-=======
+Examples
+========
 
 .. toctree::
    :maxdepth: 2
@@ -36,7 +28,7 @@ Mailgun Class
 .. toctree::
    :maxdepth: 2
 
-   mailgun
+   main_class
 
 
 Indices and tables

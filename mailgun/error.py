@@ -4,7 +4,3 @@ class NoAPIKey(Exception):
 
 class NoDomain(Exception):
     pass
-
-
-class UnsupportedDocumentType(Exception):
-    pass
