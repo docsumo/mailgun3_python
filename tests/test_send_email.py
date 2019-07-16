@@ -14,7 +14,7 @@ from loguru import logger
 mail = Mailgun()
 
 
-class TestMailgun(unittest.TestCase):
+class TestSendEmail(unittest.TestCase):
     def test_email(self):
         r = mail.send_message(
             "Rushabh Sheth, Docsumo <rushabh.sheth@docsumo.com>",
@@ -22,6 +22,7 @@ class TestMailgun(unittest.TestCase):
             "Docsumo: Automate invoice data capture at",
             "welcome_email",
         )
+        logger.info(r)
         self.assertEqual(r["message"], "Queued. Thank you.")
 
     def test_email_with_attachemnt(self):
@@ -32,6 +33,7 @@ class TestMailgun(unittest.TestCase):
             "welcome_email",
             files=["/Users/bikramdahal/Arch/API/mailgun3_python/tests/files/data.pdf"],
         )
+        logger.info(r)
         self.assertEqual(r["message"], "Queued. Thank you.")
 
     def test_email_with_template(self):
@@ -42,12 +44,16 @@ class TestMailgun(unittest.TestCase):
             "welcome_email",
             {"company_name": "docsumo", "first_name": "Bikram"},
         )
+        logger.info(r)
         self.assertEqual(r["message"], "Queued. Thank you.")
 
+
+class TestStoreEmail(unittest.TestCase):
     def test_get_logs(self):
         stored_email = mail.get_logs()
         stored_email = stored_email["items"][0]
         url = stored_email["storage"]["url"]
+        logger.info(url)
         self.assertEqual(isinstance(url, str), True)
 
     def test_get_metadata(self):
@@ -56,29 +62,20 @@ class TestMailgun(unittest.TestCase):
         url = stored_email["storage"]["url"]
         body_mime = mail.get_message_mime(url)["body-mime"]
         meta_data = mail.parse_email_mime(body_mime)
+        logger.info(meta_data)
         self.assertEqual(isinstance(meta_data, dict), True)
 
 
-class TestMailList(unittest.TestCase):
-    # def test_create_mail_list(self):
-    #     data = mail.create_mailing_list('welcome', "Welcome Email")
-    #     logger.info(data)
-    #     self.assertEqual(isinstance(data, dict), True)
+# class TestValidateEmail(unittest.TestCase):
+#     def test_validate_email(self):
+#         validate = mail.validated_email("bkrm.dahal@gmail.com")
+#         logger.info(validate)
+#         self.assertEqual(validate, True)
 
-    def test_add_user_mail_List(self):
-        data = mail.add_to_mailing_list(
-            "welcome",
-            {
-                "subscribed": True,
-                "address": "bkrm.dahal@gmail.com",
-                "name": "Bob Bar",
-                "description": "Developer",
-                "vars": '{"age": 26}',
-            },
-        )
-        logger.info(data)
-        self.assertEqual(isinstance(data, dict), True)
-
+#     def test_validate_email_not_valid(self):
+#         validate = mail.validated_email("bkrmafghfgdhfgd@gmail.com")
+#         logger.info(validate)
+#         self.assertEqual(validate, False)
 
 if __name__ == "__main__":
     unittest.main()

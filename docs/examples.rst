@@ -26,7 +26,3 @@ Mailgun Examples
                                     "Docsumo: Automate invoice data capture at Docsumo", 
                                     "welcome_email", 
                                     {"company_name": "docsumo", "first_name": "bikram"})
-
-
-
-   

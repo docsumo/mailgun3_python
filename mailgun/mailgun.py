@@ -4,7 +4,7 @@ import json
 
 import requests
 
-from .email_parsing import parse_mail
+from .email_parsing import parse_email
 from .error import NoAPIKey, NoDomain
 
 
@@ -163,7 +163,7 @@ class Mailgun:
         response = requests.post(url, auth=self.auth, data=payload)
         return response.json()
 
-    def get_logs(self, params={"event": "stored"}):
+    def get_logs(self, params: dict = {"event": "stored"}):
         """
         Logs
 
@@ -191,7 +191,7 @@ class Mailgun:
             Response dict: ``dict``
 
         """
-        url = self.base_url + "/lists"
+        url = self.base_url + "lists"
         response = requests.post(
             url,
             auth=self.auth,
@@ -217,7 +217,7 @@ class Mailgun:
         response = requests.delete(url, auth=self.auth)
         return response.json()
 
-    def mailing_list_add_email(self, list_name, data):
+    def mailing_list_add_email(self, list_name: str, data: dict):
 
         """
         Add user to mailing list 
@@ -242,51 +242,51 @@ class Mailgun:
         response = requests.post(url, auth=self.auth, data=data)
         return response.json()
 
-        def mailing_list_delete_email(self, list_name, email):
+    def mailing_list_delete_email(self, list_name: str, email: str):
 
-            """
-            Add user to mailing list 
+        """
+        Add user to mailing list 
 
-            Args:
-                list_name: ``str``
-                email: ``str``
-                    email to be removed
+        Args:
+            list_name: ``str``
+            email: ``str``
+                email to be removed
 
-            Return:
-                Rsponses from API: ``dict``
-            """
-            url = self.base_url + "lists/{}@{}/members/{}".format(
-                list_name, self.domain, email
-            )
-            response = requests.delete(url, auth=self.auth)
-            return response.json()
+        Return:
+            Rsponses from API: ``dict``
+        """
+        url = self.base_url + "lists/{}@{}/members/{}".format(
+            list_name, self.domain, email
+        )
+        response = requests.delete(url, auth=self.auth)
+        return response.json()
 
-        def mailing_list_update_email(self, list_name, email, data):
+    def mailing_list_update_email(self, list_name: str, email: str, data: dict):
 
-            """
-            Add user to mailing list 
+        """
+        Add user to mailing list 
 
-            Args:
-                list_name: ``str``
-                email: ``str``
-                data: ``dict``
-                    data of user
+        Args:
+            list_name: ``str``
+            email: ``str``
+            data: ``dict``
+                data of user
 
-                        .. code-block:: json
+                    .. code-block:: json
 
-                            {'subscribed': True,
-                            'name': 'Bob Bar',
-                            'description': 'Developer',
-                            'vars': '{"age": 26}'}
+                        {'subscribed': True,
+                        'name': 'Bob Bar',
+                        'description': 'Developer',
+                        'vars': '{"age": 26}'}
 
-            Return:
-                Rsponses from API: ``dict``
-            """
-            url = self.base_url + "lists/{}@{}/members/{}".format(
-                list_name, self.domain, email
-            )
-            response = requests.put(url, auth=self.auth, data=data)
-            return response.json()
+        Return:
+            Rsponses from API: ``dict``
+        """
+        url = self.base_url + "lists/{}@{}/members/{}".format(
+            list_name, self.domain, email
+        )
+        response = requests.put(url, auth=self.auth, data=data)
+        return response.json()
 
     def validated_email(self, email: str):
         """
@@ -302,7 +302,7 @@ class Mailgun:
 
         response = requests.get(
             "https://api.mailgun.net/v4/address/validate",
-            auth=self.apikey,
+            auth=self.auth,
             params={"address": email},
         )
 
@@ -315,7 +315,7 @@ class Mailgun:
         else:
             return False
 
-    def get_message_mime(self, url):
+    def get_message_mime(self, url: str):
         """
         get email mime to parse email
 
@@ -344,7 +344,7 @@ class Mailgun:
         Return:
             Metadata and file saved in tmp dir: ``dict``
         """
-        metadata = parse_mail(body_mime, email_id, save_attachment_dir)
+        metadata = parse_email(body_mime, email_id, save_attachment_dir)
         return metadata
 
     def __str__(self):
