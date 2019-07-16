@@ -72,17 +72,21 @@ class Mailgun:
 
                 .. code-block:: json
 
-                    {'id': '<20190714191959.1.D7B53FD6D5077D03@mg.docsumo.com>',
-                    'message': 'Queued. Thank you.'}
+                    {
+                    'id': '<20190714191959.1.D7B53FD6D5077D03@mg.docsumo.com>',
+                    'message': 'Queued. Thank you.'
+                    }
 
 
         Example:
 
             .. code-block:: python
 
-                send_message(None, "bkrm.dahal@gmail.com", 
-                "Docsumo: Automate invoice data capture at Docsumo", 'welcome_email', 
-                files=['/Users/bikramdahal/Downloads/backup_image/savage and palmer/Behariji Enterprises - BE 32 19-20 DONE.pdf'])
+                send_message("Text, <test@gmail.com>", 
+                "bkrm.dahal@gmail.com", 
+                "Docsumo: Automate invoice data capture at Docsumo", 
+                "welcome_email", 
+                files=["./data.pdf])
 
         """
         if text_body:
@@ -138,16 +142,20 @@ class Mailgun:
 
                 .. code-block:: json
 
-                    {'id': '<20190714191959.1.D7B53FD6D5077D03@mg.docsumo.com>',
-                    'message': 'Queued. Thank you.'}
+                    {
+                    'id': '<20190714191959.1.D7B53FD6D5077D03@mg.docsumo.com>',
+                    'message': 'Queued. Thank you.'
+                    }
 
 
         Example:
 
             .. code-block:: python
 
-                send_message_template(None, "bkrm.dahal@gmail.com", 
-                "Docsumo: Automate invoice data capture at Docsumo", 'welcome_email', 
+                send_message_template("Text, <test@gmail.com>",
+                "bkrm.dahal@gmail.com", 
+                "Docsumo: Automate invoice data capture at Docsumo", 
+                "welcome_email", 
                 {"company_name": "docsumo", "first_name": "bikram"})
 
         """
@@ -245,7 +253,7 @@ class Mailgun:
     def mailing_list_delete_email(self, list_name: str, email: str):
 
         """
-        Add user to mailing list 
+        Delete user from mailing list 
 
         Args:
             list_name: ``str``
@@ -264,7 +272,7 @@ class Mailgun:
     def mailing_list_update_email(self, list_name: str, email: str, data: dict):
 
         """
-        Add user to mailing list 
+        Update user to detail on mailing list
 
         Args:
             list_name: ``str``
