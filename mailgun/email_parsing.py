@@ -21,7 +21,7 @@ def parse_email(email_string: str, email_id: str, output_dir: str = "tmp"):
     Return:
         Email metadata dict: ``dict``
 
-            ..code-block:: json
+            .. code-block:: json
 
                 {
                 "from": bkrm.dahal@gmail.com,
