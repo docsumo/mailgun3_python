@@ -17,6 +17,7 @@ def parse_email(email_string: str, email_id: str, output_dir: str = "tmp"):
         email_id: ``str``
             unique id for email
         output_dir: ``str``
+            folder for attachments
         
     Return:
         Email metadata dict: ``dict``

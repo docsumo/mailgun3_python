@@ -52,6 +52,7 @@ class Mailgun:
         html_body: str = None,
         text_body: str = None,
         files: list = None,
+        extra_data: dict = None,
     ):
         """
         Send email
@@ -66,6 +67,8 @@ class Mailgun:
             text_body: ``str``
             files: ``list``
                 list of files
+            extra_data: ``dict``
+                extra data for tagging and tracking
 
         Return:
             Response from API: ``json``
@@ -105,6 +108,9 @@ class Mailgun:
         }
         data.update(body)
 
+        if extra_data:
+            data.update(extra_data)
+
         # add files
         if files:
             attachment = []
@@ -122,7 +128,13 @@ class Mailgun:
         return response.json()
 
     def send_message_template(
-        self, sender_email: str, to: str, subject: str, template_name: str, data: dict
+        self,
+        sender_email: str,
+        to: str,
+        subject: str,
+        template_name: str,
+        data: dict,
+        extra_data: dict = None,
     ):
         """
         Send email using template
@@ -136,6 +148,8 @@ class Mailgun:
             template_name: ``str``
             data: ``str``
                 data for template make string from dict using ``json.dumps``
+            extra_data: ``dict``
+                extra data for tagging and tracking
 
         Return:
             Response from API: ``json``
@@ -167,6 +181,10 @@ class Mailgun:
             "template": template_name,
             "h:X-Mailgun-Variables": json.dumps(data),
         }
+
+        if extra_data:
+            payload.update(extra_data)
+
         url = self.base_url + "{}/messages".format(self.domain)
         response = requests.post(url, auth=self.auth, data=payload)
         return response.json()

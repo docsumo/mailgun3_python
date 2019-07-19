@@ -30,7 +30,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../mailgun/"))
 # constant name <<change these value only>>
 PROJECT_NAME = "mailgun"
 AUTHOR = "mailgun"
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 
 
 # -- General configuration ------------------------------------------------
